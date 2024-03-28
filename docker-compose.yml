@@ -2,7 +2,7 @@ version: '3'
 services:
 
   db:
-    container_name: 'mysql_econ_container'
+    container_name: ${DB_CONTAINER_NAME}
     image: 'mysql:8.0'
     healthcheck: 
       test: "exit 0"
@@ -11,7 +11,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: mypassword
-      MYSQL_DATABASE: ecom
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
 
 

@@ -22,7 +22,7 @@ func (s *Store) GetUserByEmail(email string) (*types.User, error) {
         return nil, err
     }
 
-    var u *types.User
+    var u *types.User = &types.User{}
     for rows.Next() {
         u, err = scanRowIntoUser(rows)
         if err != nil {
@@ -62,7 +62,7 @@ func (s *Store) GetUserByID(id int) (*types.User, error) {
 func (s *Store) CreateUser(user types.User) error {
     query := `
         INSERT INTO users (first_name, last_name, email, password)
-        VALUES ($1, $2, $3, $4)
+        VALUES (?, ?, ?, ?)
     `
     _, err := s.db.Exec(
         query, 

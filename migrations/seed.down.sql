@@ -1,0 +1,4 @@
+TRUNCATE TABLE users;
+TRUNCATE TABLE products;
+TRUNCATE TABLE orders;
+TRUNCATE TABLE order_items;
