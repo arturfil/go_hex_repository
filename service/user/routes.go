@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/arturfil/yt_ecomm/config"
 	"github.com/arturfil/yt_ecomm/helpers"
 	"github.com/arturfil/yt_ecomm/service/auth"
 	"github.com/arturfil/yt_ecomm/types"
@@ -46,7 +47,41 @@ func (h *Handler) RegisterRotues(router *chi.Mux) {
 }
 
 func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
+	// payload
+	var payload types.LoginUserPayload
+	if err := helpers.ReadJSON(r, &payload); err != nil {
+		helpers.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
 
+	// validate the payload
+	if err := helpers.Validate.Struct(payload); err != nil {
+		errors := err.(validator.ValidationErrors)
+		helpers.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload %v", errors))
+		return
+	}
+
+    // check that there's a user
+    user, err :=  h.store.GetUserByEmail(payload.Email)
+    if err != nil {
+        helpers.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid credentials"))
+        return 
+    }
+
+    // check if passwords match
+    if !auth.PasswordMatches(user.Password, payload.Password) {
+        helpers.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid credentials"))
+        return
+    }
+
+    secret := []byte(config.Envs.JWTSecret)
+    token, err := auth.CreateJWT(secret, user.ID)
+    if err != nil {
+        helpers.WriteError(w, http.StatusInternalServerError, err)
+        return
+    }
+
+    helpers.WriteJSON(w, http.StatusOK, map[string]string{"token": token})
 }
 
 // handleRegister - will create a new user in the database
@@ -65,11 +100,8 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-    fmt.Println("email -> ", payload.Email)
-
 	// check is user exists
-	user, err := h.store.GetUserByEmail(payload.Email)
-    fmt.Println("USER HERE -> ", user)
+	_, err := h.store.GetUserByEmail(payload.Email)
 	if err == nil {
 		helpers.WriteError(w, http.StatusBadRequest, fmt.Errorf("user with email already %s exists", payload.Email))
 		return

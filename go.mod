@@ -6,8 +6,8 @@ require (
 	github.com/go-chi/chi/v5 v5.0.12
 	github.com/go-playground/validator/v10 v10.19.0
 	github.com/go-sql-driver/mysql v1.8.0
+	github.com/golang-jwt/jwt/v5 v5.2.1
 	golang.org/x/crypto v0.21.0
-	gopkg.in/go-playground/validator.v9 v9.31.0
 )
 
 require (
@@ -19,5 +19,4 @@ require (
 	golang.org/x/net v0.21.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 )

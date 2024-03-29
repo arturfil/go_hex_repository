@@ -30,8 +30,6 @@ func (s *Store) GetUserByEmail(email string) (*types.User, error) {
         }
     }
 
-    fmt.Println("user -> ", u)
-
     if u.ID == 0 {
         return nil, fmt.Errorf("user not found")
     }
