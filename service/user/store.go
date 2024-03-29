@@ -3,7 +3,6 @@ package user
 import (
 	"database/sql"
 	"fmt"
-	"time"
 
 	"github.com/arturfil/yt_ecomm/types"
 )
@@ -26,9 +25,12 @@ func (s *Store) GetUserByEmail(email string) (*types.User, error) {
     for rows.Next() {
         u, err = scanRowIntoUser(rows)
         if err != nil {
+            fmt.Println("error!", err)
             return nil, err
         }
     }
+
+    fmt.Println("user -> ", u)
 
     if u.ID == 0 {
         return nil, fmt.Errorf("user not found")
@@ -36,7 +38,6 @@ func (s *Store) GetUserByEmail(email string) (*types.User, error) {
 
     return u, nil
 }
-
 
 func (s *Store) GetUserByID(id int) (*types.User, error) {
     rows, err := s.db.Query("SELECT * FROM users WHERE id = ?", id)
@@ -87,8 +88,8 @@ func scanRowIntoUser(rows *sql.Rows) (*types.User, error) {
         &user.LastName,
         &user.Email,
         &user.Password,
-        time.Now(),
-        time.Now(),
+        &user.CreatedAt,
+        &user.UpdatedAt,
     )
     if err != nil {
         return nil, err

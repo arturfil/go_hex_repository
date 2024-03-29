@@ -30,3 +30,4 @@ init.down:
 
 start: build run
 
+restart: stop build start
