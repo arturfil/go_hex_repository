@@ -1,4 +1,4 @@
-module github.com/arturfil/yt_ecomm
+module github.com/arturfil/go_repository_hex
 
 go 1.22.0
 

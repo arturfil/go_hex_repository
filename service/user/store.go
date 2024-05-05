@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/arturfil/yt_ecomm/types"
+	"github.com/arturfil/go_repository_hex/types"
 )
 
 type Store struct {
@@ -21,7 +21,7 @@ func (s *Store) GetUserByEmail(email string) (*types.User, error) {
         return nil, err
     }
 
-    var u *types.User = &types.User{}
+    u := new(types.User)
     for rows.Next() {
         u, err = scanRowIntoUser(rows)
         if err != nil {

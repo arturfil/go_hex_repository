@@ -7,7 +7,8 @@ build:
 
 run:
 	@echo "run  binary"
-	@env DB_HOST=${DB_HOST} ./${BINARY}
+	@env DB_HOST=${DB_HOST} ./${BINARY} &
+	@echo "backend started"
 
 stop:
 	@echo "stopping backend"
@@ -15,7 +16,7 @@ stop:
 
 
 up:
-	docker-compose up -d 
+	docker-compose up -d --remove-orphans
 
 down:
 	docker-compose down

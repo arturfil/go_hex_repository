@@ -1,7 +1,7 @@
 version: '3'
-services:
 
-  db:
+services:
+  mysql:
     container_name: ${DB_CONTAINER_NAME}
     image: 'mysql:8.0'
     healthcheck: 

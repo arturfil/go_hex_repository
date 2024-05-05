@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/arturfil/yt_ecomm/config"
+	"github.com/arturfil/go_repository_hex/config"
 	"github.com/golang-jwt/jwt/v5"
 )
 

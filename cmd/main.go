@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/arturfil/yt_ecomm/cmd/api"
-	"github.com/arturfil/yt_ecomm/config"
-	"github.com/arturfil/yt_ecomm/db"
+	"github.com/arturfil/go_repository_hex/cmd/api"
+	"github.com/arturfil/go_repository_hex/config"
+	"github.com/arturfil/go_repository_hex/db"
 	"github.com/go-sql-driver/mysql"
 )
 

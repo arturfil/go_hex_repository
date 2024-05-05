@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/arturfil/yt_ecomm/types"
+	"github.com/arturfil/go_repository_hex/types"
 	"github.com/go-chi/chi/v5"
 )
 
@@ -26,6 +26,7 @@ func TestUserServiceHandlers(t *testing.T) {
         }
 
         marshalled, _ := json.Marshal(payload)
+
 
         req, err := http.NewRequest(http.MethodPost, "/register", bytes.NewBuffer(marshalled))
         if err != nil {
@@ -47,7 +48,7 @@ func TestUserServiceHandlers(t *testing.T) {
         payload := types.RegisterUserPayload{
             FirstName: "user",
             LastName: "las",
-            Email: "valid@gmail.com",
+            Email: "valid2@gmail.com",
             Password: "12341234",
         }
 
@@ -65,7 +66,7 @@ func TestUserServiceHandlers(t *testing.T) {
         router.ServeHTTP(rr, req)
 
         if rr.Code != http.StatusCreated {
-            t.Errorf("expected status code %d, got %d", http.StatusBadRequest, rr.Code)
+            t.Errorf("[register] expected status code %d, got %d, -> %v", http.StatusCreated, rr.Code, rr.Body)
         }
     })
 

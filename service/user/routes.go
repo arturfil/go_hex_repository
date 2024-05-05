@@ -6,10 +6,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/arturfil/yt_ecomm/config"
-	"github.com/arturfil/yt_ecomm/helpers"
-	"github.com/arturfil/yt_ecomm/service/auth"
-	"github.com/arturfil/yt_ecomm/types"
+	"github.com/arturfil/go_repository_hex/config"
+	"github.com/arturfil/go_repository_hex/helpers"
+	"github.com/arturfil/go_repository_hex/service/auth"
+	"github.com/arturfil/go_repository_hex/types"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-playground/validator/v10"
 )
@@ -86,6 +86,7 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 
 // handleRegister - will create a new user in the database
 func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
+
 	// payload
 	var payload types.RegisterUserPayload
 	if err := helpers.ReadJSON(r, &payload); err != nil {
@@ -103,14 +104,14 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 	// check is user exists
 	_, err := h.store.GetUserByEmail(payload.Email)
 	if err == nil {
-		helpers.WriteError(w, http.StatusBadRequest, fmt.Errorf("user with email already %s exists", payload.Email))
+        helpers.WriteError(w, http.StatusBadRequest, fmt.Errorf("user with email %s already exists", payload.Email))
 		return
 	}
 
 	hashedPassword, err := auth.HashPassword(payload.Password)
 	if err != nil {
 		helpers.WriteError(w, http.StatusInternalServerError, err)
-
+        return
 	}
 
 	err = h.store.CreateUser(types.User{
