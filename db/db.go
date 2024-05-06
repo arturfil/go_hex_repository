@@ -21,6 +21,7 @@ func NewDBStorage(cfg mysql.Config) (*sql.DB, error) {
     return db, nil
 }
 
+// general new db function (not in use currently, but here as an example)
 func NewDatabase(dsn string) (*DB, error) {
     dbConn := &DB{}
 
@@ -37,6 +38,7 @@ func NewDatabase(dsn string) (*DB, error) {
     return dbConn, nil
 }
 
+// helper function
 func checkDB(d *sql.DB) error {
     err := d.Ping()
     if err != nil {
